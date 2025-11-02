@@ -1,0 +1,26 @@
+# Streamlit Dashboard Requirements for Maritime Domain Awareness System
+
+# Core Streamlit and web framework
+streamlit>=1.28.0
+plotly>=5.15.0
+seaborn>=0.12.0
+
+# Already included in main requirements but needed for dashboard
+opencv-python>=4.5.0
+numpy>=1.21.0
+torch>=1.9.0
+torchvision>=0.10.0
+ultralytics>=8.0.0
+scipy>=1.7.0
+pandas>=1.3.0
+matplotlib>=3.3.0
+tqdm>=4.62.0
+Pillow>=8.0.0
+
+# Optional for enhanced functionality
+tensorflow>=2.8.0
+scikit-learn>=1.0.0
+
+# Additional dashboard utilities
+streamlit-option-menu>=0.3.6
+streamlit-aggrid>=0.3.4

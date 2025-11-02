@@ -1,0 +1,6 @@
+frame_id,track_id,anomaly_score,is_anomaly
+11,0,0.0,False
+15,0,0.0,False
+52,9,0.0,False
+98,19,0.0,False
+99,19,0.0,False
