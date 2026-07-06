@@ -7,6 +7,9 @@ import subprocess
 import sys
 import os
 
+# Add src directory to Python path
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
+
 def check_streamlit():
     """Check if Streamlit is installed"""
     try:
@@ -46,7 +49,7 @@ def launch_dashboard():
     try:
         # Launch Streamlit
         subprocess.run([
-            sys.executable, "-m", "streamlit", "run", "maritime_dashboard.py",
+            sys.executable, "-m", "streamlit", "run", "src/dashboard/maritime_dashboard.py",
             "--server.port", "8501",
             "--server.address", "localhost",
             "--browser.gatherUsageStats", "false"
@@ -63,9 +66,9 @@ def main():
     
     # Check if required files exist
     required_files = [
-        "maritime_dashboard.py",
-        "maritime_tracking_system.py",
-        "YOLO MODELS/best.pt"
+        "src/dashboard/maritime_dashboard.py",
+        "src/core/maritime_tracking_system.py",
+        "models/best.pt"
     ]
     
     missing_files = []

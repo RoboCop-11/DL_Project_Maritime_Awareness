@@ -1,0 +1,17 @@
+include README.md
+include LICENSE
+include requirements.txt
+include requirements-dev.txt
+include dashboard_requirements.txt
+recursive-include docs *.md
+recursive-include examples *.py
+recursive-include scripts *.py
+recursive-include tests *.py
+recursive-include notebooks *.ipynb
+exclude models/*
+exclude data/*
+exclude SSDD_coco/*
+exclude output/*
+exclude simple_output/*
+exclude dashboard_output/*
+exclude results/*

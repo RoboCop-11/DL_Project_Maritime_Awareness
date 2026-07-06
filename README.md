@@ -11,6 +11,53 @@ This system processes maritime SAR (Synthetic Aperture Radar) images to:
 3. **Detect Anomalies** in ship trajectories using LSTM autoencoders
 4. **Provide Real-time Monitoring** for maritime domain awareness
 
+## 📁 Project Structure
+
+```
+maritime-domain-awareness/
+├── 📂 src/                          # Source code
+│   ├── 📂 core/                     # Core tracking system
+│   │   ├── __init__.py
+│   │   └── maritime_tracking_system.py
+│   ├── 📂 dashboard/                # Web dashboard
+│   │   ├── __init__.py
+│   │   └── maritime_dashboard.py
+│   ├── 📂 preprocessing/            # Image preprocessing
+│   │   ├── __init__.py
+│   │   ├── speckle_reduction.py
+│   │   ├── intensity_normalization.py
+│   │   └── radiometric_calibration.py
+│   └── __init__.py
+├── 📂 examples/                     # Demo scripts
+│   ├── simple_maritime_demo.py
+│   ├── complete_demo.py
+│   └── run_maritime_tracking.py
+├── 📂 tests/                        # Test suite
+│   ├── __init__.py
+│   ├── test_dashboard.py
+│   └── test_dashboard_simple.py
+├── 📂 scripts/                      # Utility scripts
+│   ├── setup_environment.py
+│   ├── analyze_results.py
+│   └── create_preprocessed_dataset.py
+├── 📂 docs/                         # Documentation
+│   ├── DASHBOARD_GUIDE.md
+│   ├── PROJECT_SUMMARY.md
+│   └── FINAL_SUMMARY.md
+├── 📂 notebooks/                    # Jupyter notebooks
+│   └── YOLO_Ship_Segmentation_Training.ipynb
+├── 📂 models/                       # Model files (not in git)
+│   └── best.pt                      # YOLO model
+├── 📂 data/                         # Dataset (not in git)
+│   └── SSDD_coco/                   # SAR ship dataset
+├── 📄 README.md                     # This file
+├── 📄 requirements.txt              # Dependencies
+├── 📄 requirements-dev.txt          # Development dependencies
+├── 📄 setup.py                      # Package setup
+├── 📄 LICENSE                       # MIT license
+└── 📄 .gitignore                    # Git ignore rules
+```
+
 ## 🏗️ System Architecture
 
 ```
@@ -54,28 +101,41 @@ scikit-learn>=1.0.0
 
 ## 🚀 Quick Start
 
-### 1. Setup Environment
+### Setup Environment
 ```bash
-# Install dependencies
-python setup_environment.py
+# Option 1: Install the package
+pip install -e .
 
-# Or manually install
+# Option 2: Install dependencies directly
 pip install -r requirements.txt
+
+# For development (includes dashboard dependencies)
+pip install -r requirements-dev.txt
 ```
 
-### 2. Prepare Data
-Ensure you have:
-- Trained YOLO model in `YOLO MODELS/best.pt`
-- SSDD dataset images in `SSDD_coco/` directory
-- Preprocessing functions in `preprocessing_functions/`
+### 2. Download Model and Data
+1. **Model**: Place your trained YOLO model as `models/best.pt`
+2. **Dataset**: Place SSDD dataset in `data/SSDD_coco/` directory
+3. **Preprocessing**: The preprocessing functions are included in `src/preprocessing/`
 
-### 3. Run Demo
+### 3. Run the System
+
+#### Quick Dashboard Launch
+```bash
+# Launch the web dashboard
+python run_dashboard.py
+```
+
+#### Run Examples
 ```bash
 # Simple demo (recommended for first run)
-python simple_maritime_demo.py
+python examples/simple_maritime_demo.py
 
-# Full demo with advanced features
-python run_maritime_tracking.py
+# Full demo with advanced features  
+python examples/run_maritime_tracking.py
+
+# Complete pipeline demonstration
+python examples/complete_demo.py
 ```
 
 ## 📊 Dataset
@@ -94,15 +154,15 @@ The system is designed for the **SSDD (SAR Ship Detection Dataset)**:
 
 ### 1. Ship Detection (YOLO)
 ```python
-from maritime_tracking_system import YOLOShipDetector
+from src.core.maritime_tracking_system import YOLOShipDetector
 
-detector = YOLOShipDetector("YOLO MODELS/best.pt")
+detector = YOLOShipDetector("models/best.pt")
 centers, boxes, masks = detector.detect_ships(image)
 ```
 
 ### 2. Multi-Object Tracking
 ```python
-from maritime_tracking_system import ShipTracker
+from src.core.maritime_tracking_system import ShipTracker
 
 tracker = ShipTracker(max_disappeared=10, max_distance=100)
 tracks = tracker.update(detections)
@@ -110,7 +170,7 @@ tracks = tracker.update(detections)
 
 ### 3. Anomaly Detection
 ```python
-from maritime_tracking_system import TrajectoryAnomalyDetector
+from src.core.maritime_tracking_system import TrajectoryAnomalyDetector
 
 anomaly_detector = TrajectoryAnomalyDetector()
 anomaly_detector.train()
@@ -119,9 +179,9 @@ score, is_anomaly = anomaly_detector.detect_anomaly(trajectory)
 
 ### 4. Complete System
 ```python
-from maritime_tracking_system import MaritimeTrackingSystem
+from src.core.maritime_tracking_system import MaritimeTrackingSystem
 
-system = MaritimeTrackingSystem("YOLO MODELS/best.pt")
+system = MaritimeTrackingSystem("models/best.pt")
 result = system.process_frame(image, frame_id=0)
 ```
 
@@ -161,7 +221,7 @@ anomaly_detector = TrajectoryAnomalyDetector(
 ### YOLO Detection Parameters
 ```python
 detector = YOLOShipDetector(
-    model_path="YOLO MODELS/best.pt",
+    model_path="models/best.pt",
     confidence=0.5         # Detection confidence threshold
 )
 ```
@@ -199,12 +259,12 @@ The system tracks:
 
 1. **YOLO Model Not Found**
    ```
-   Solution: Ensure best.pt is in YOLO MODELS/ directory
+   Solution: Ensure best.pt is in models/ directory
    ```
 
 2. **Dataset Not Found**
    ```
-   Solution: Place SSDD images in SSDD_coco/ directory
+   Solution: Place SSDD images in data/SSDD_coco/ directory
    ```
 
 3. **TensorFlow Import Error**
